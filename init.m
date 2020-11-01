@@ -6,10 +6,11 @@ addpath('./inputTimeseries');
 
 %% data input
 % data input from CSV, AlphaVantage/datafeed
-importedData = readtable('S&P 500 Historical Data.csv');
+importedData = readtable('S&P 500 Historical Data Reversed with missing data.csv');
+
 % input of related information
 %% Data validation
-validatedData  = validateData(importedData,"1D", "investing" );
+validatedData  = validateData(importedData,"1D", "investingUSA" );
 
 %% Backtest 
 

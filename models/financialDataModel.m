@@ -1,10 +1,12 @@
 classdef financialDataModel
     properties
-        Dates
-        Prices
-        Returns
-        Timeframe
-        Origin
+        dates
+        prices
+        returns
+        timeframe
+        origin
+        missingData
+        
     end
     
     properties (SetAccess = private)
@@ -13,12 +15,13 @@ classdef financialDataModel
     
     methods
         % constructor
-        function obj = financialDataModel(dates, prices, returns, timeframe, origin)
-            obj.Dates = dates;
-            obj.Prices = prices;
-            obj.Returns = returns;
-            obj.Timeframe= timeframe;
-            obj.Origin = origin;
+        function obj = financialDataModel(dates, prices, returns, timeframe, origin, missingData)
+            obj.dates = dates;
+            obj.prices = prices;
+            obj.returns = returns;
+            obj.timeframe= timeframe;
+            obj.origin = origin;
+            obj.missingData = missingData;
         end
 
         function obj = lastDate(obj)
