@@ -30,7 +30,7 @@ function [financialDataObject] = validateData(timeseriesData, timeframe, origin)
         timeframe,...            % timeframe
         origin,...%origin
         missingData... %missingData
-    )
+    );
 
 end
 
