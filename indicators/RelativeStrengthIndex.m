@@ -1,4 +1,4 @@
-classdef RSI
+classdef RelativeStrengthIndex
     properties
         periods
         upperBand
@@ -11,7 +11,7 @@ classdef RSI
     
     methods
         % constructor
-        function obj = RSI(periods, upperBand,lowerBand)
+        function obj = RelativeStrengthIndex(periods, upperBand,lowerBand)
             obj.periods = periods;
             obj.upperBand = upperBand;
             obj.lowerBand = lowerBand;

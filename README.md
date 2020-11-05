@@ -1,10 +1,16 @@
 # Backtest-MVP-Platform-in-Matlab
 
-# Functional Analysis
-
 # Objective
 
 Create a script that manages a complete backtests and optimizes a trading strategy (built relying on one or more indicators) given a stock and a period of backtest.
+
+# Notes on the Project
+
+1. It's written in vanila Matlab, external packages has not been used as I aimed to code everything from scratch
+2. I have made extensive use of Object Oriented Programming in Matlab _(i.e. indicators, portfolio, orders and strategies are Objects)_
+3. 
+
+# How To use it
 
 # Logical Steps for the Backtest
 
@@ -32,10 +38,6 @@ Moreover, the timeseries will be scanned to check if there is missing data:
 
 If some points of the timeseries are missing, they will be filled by the mean between the left and right point of the timeseries.
 
-If more than one point of the timeseries are missing in an interval such as
-
-[Untitled](https://www.notion.so/9cec13457e314a24a31e2538ba722af4)
-
 Then, it will be calculated the interval not available(t=3) and the difference between the 2 available price (diffPrice=20-15=5).
 The new data used as a fill for the missing points will be calculated as:
 
@@ -44,6 +46,8 @@ $m=(y_2-y_1)/(x_2-x_1)$
 $q=y_2-m\cdot y_1$
 
 $P_t=t\cdot m+q$
+
+If data is missing at the beginning or at the end of the timeseries, it will be replaced by the one more close to it
 
 ## 3) Backtest of the strategy and fake creation of sell and buy orders
 
@@ -72,9 +76,10 @@ there will be collected information as:
 
 - Profit/Loss
 - "Has the strategy beaten the market?"
+    - Requires to compute the gross profit of a sell and hold on the stock or a buy and hold. Max of the absolute value of those will be the result.
 - Variance of the profit
-- % Drawdown
-- Period of Sink of drawdown (if possible)
+- % Max Drawdown
+- Period of Sink of drawdown
 - Orders done
 - Amount of Orders in profit
 - % Orders in profit
@@ -84,7 +89,6 @@ there will be collected information as:
 - Profit made by Orders in profit
 - Sharpe Ratio
 - Sortino Ratio
-- A Chart of the profit/loss
 
 ## 6) Pareto Efficiency on Fundamental Data in order to spot the best strategy
 

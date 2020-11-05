@@ -11,12 +11,13 @@ function [financialDataObject] = validateData(timeseriesData, timeframe, origin)
     % 0) add  paths
     addpath('./models')
     % 1) change dataType to timeseries dataType
-    % dateFormat = 'mm/dd/yyyy';
+    % dateFormat = 'mm/dd/yyyy HH:MM:SS';
     %formattedDates = datestr(timeseriesData.Date,dateFormat);
     %formattedDates = string(formattedDates);
     formattedPrices=str2double(timeseriesData.Price);        % Note: "-" is interpreted as NaN
     % 2) sort the data
     [formattedDates, sortOrder] = sort(timeseriesData.Date);   
+    formattedDates = datenum(formattedDates);
     formattedPrices = formattedPrices(sortOrder,:);
     [formattedPrices, missingData] = addMissingData(formattedPrices);
     

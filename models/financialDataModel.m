@@ -25,23 +25,23 @@ classdef financialDataModel
         end
         
         % get last date
-        function lastDate = lastDate(self)
-            lastDate = self.dates(end);
+        function lastDate = lastDate(obj)
+            lastDate = obj.dates(end);
         end
         
         % get first date
-        function firstDate = firstDate(self)
-            firstDate = self.dates(1);
+        function firstDate = firstDate(obj)
+            firstDate = obj.dates(1);
         end
         
         % get mean of the prices
-        function meanPrice = meanPrice(self)
-            meanPrice = mean(self.prices);
+        function meanPrice = meanPrice(obj)
+            meanPrice = mean(obj.prices);
         end
         
         % get Standard Deviation of the prices
-        function sdPrice = sdPrice(self)
-            sdPrice = std(self.prices,1);
+        function sdPrice = sdPrice(obj)
+            sdPrice = std(obj.prices,1);
         end
         
     end

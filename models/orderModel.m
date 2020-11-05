@@ -9,6 +9,8 @@ classdef orderModel
         stopLoss
         takeProfit
         riskRewardRatio
+        amount
+        status
     end
     
     properties (SetAccess = private)

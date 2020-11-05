@@ -1,7 +1,7 @@
 classdef portfolioModel
     properties
         initialValue
-        history
+        valueHistory % matrix with columns : date, amount, return
     end
     
     properties (SetAccess = private)
@@ -10,9 +10,9 @@ classdef portfolioModel
     
     methods
         % constructor
-        function obj = portfolioModel(initialValue)
+        function obj = portfolioModel(initialValue,firstDate)
             obj.initialValue = initialValue;
-            obj.history = [0,history];
+            obj.valueHistory = [firstDate,initialValue, NaN];
         end
         
         function obj = addOrder(obj, order)

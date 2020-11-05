@@ -1,14 +1,18 @@
-function [outputArg1,outputArg2] = backtestStrategy(portfolio, financialData, strategyName, indicatorInputs)
+function [portfolio, analytics] = backtestStrategy(portfolio, strategy, financialData)
 %BACKTESTSTRATEGY 
 
 %% Add paths
     addpath('./models')
     addpath('./indicators')
     addpath('./strategies')
-%% get the strategy
 
 %% get the max start of each indicator
 
 %% Cycle through dates
+    for dateIndex  = startingValue : size(financialData.dates, 1)
+
+    end
+%% Set Analytics
+    analytics = "banana";
 end
 
