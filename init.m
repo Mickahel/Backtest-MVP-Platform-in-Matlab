@@ -32,7 +32,7 @@ portfolio = portfolioModel(1000000, validatedData.firstDate);
 %% Strategy Selection
 % select the strategy
 strategy = strategySelector(strategies, strategyChosen);
-strategy= strategy.addIndicators(indicatorsParameters);
+strategy = strategy.addIndicators(indicatorsParameters);
 
 %% backtest the strategy
 [portfolio, analytics] = backtestStrategy(portfolio, strategy, validatedData);

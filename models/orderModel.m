@@ -10,6 +10,7 @@ classdef orderModel
         riskRewardRatio
         amount
         status
+        profitLoss
     end
     
     properties (SetAccess = private)
@@ -33,7 +34,15 @@ classdef orderModel
         end
         
         function obj = closeOrder(obj, closePrice, closeDate)
+            obj.closePrice = closePrice;
+            obj.status = "CLOSED";
+            obj.closeDate = closeDate;
             
+            if obj.type == "BUY"
+                obj.profitLoss= obj.amount * (closePrice/obj.openPrice);
+            elseif obj.type == "SELL"
+                obj.profitLoss= obj.amount * (obj.openPrice/closePrice);
+            end
         end
     end
 end

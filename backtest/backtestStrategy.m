@@ -15,13 +15,20 @@ function [portfolio, analytics] = backtestStrategy(portfolio, strategy, financia
     %% Cycle through dates
     for dateIndex  = startingValue : size(financialData.dates, 1)
         dataInputForStrategy = financialData.prices((dateIndex-amountOfDataFromToday):dateIndex-1);
+        todayPrice = financialData.prices(dateIndex)
+        todayDate = financialData.dates(dateIndex)
+        amountInPortfolio = portfolio.value
         % For Each Day Check if you can open or close an order
 
+        % 0) check if you can close orders that go in take profit or stop
+        % loss
+        
+        % TODO
+        portfolio = portofolio.checkForOrdersToClose();
         % in the last day, close all orders that are open at the close
         % price
         if dateIndex == size(financialData.dates, 1)
             break
-        
         else
             % 1) check what strategy says (buy/sell)
             orderType = strategy.checkForSignals(dataInputForStrategy);
@@ -30,16 +37,13 @@ function [portfolio, analytics] = backtestStrategy(portfolio, strategy, financia
                 continue
             end
             % 2) check if there are orders open
-            [ordersOpen] = portfolio.checkForOpenOrders(orderType)
-            todayPrice = financialData.prices(dateIndex);
-            todayDate = financialData.dates(dateIndex);
-            amountInPortfolio =portfolio.amount()
-            order = orderModel(todayPrice, todayDate, orderType, amountInPortfolio);
-            portfolio.addOrder();
+            [orderOpen,orderIndex] = portfolio.checkForOpenOrders(orderType)
+            
             % 3) if no order is open, open the order
-%             if isempty(orderOpen)
-%                 portfolio.addOrder()
-% 
+             if isempty(orderOpen)
+                orderPlaced = orderModel(todayPrice, todayDate, orderType, amountInPortfolio)          
+                portfolio = portfolio.addOrder(orderPlaced)
+ 
 %             % 4) check if the order is the same of the signal
 %             elseif isOrderOfThisType(orderOpen, orderType) % if true
 %             % 5) hold the order
@@ -49,7 +53,7 @@ function [portfolio, analytics] = backtestStrategy(portfolio, strategy, financia
 %                 
 %             % 2-2) check if the order is the opposite of the signal
 %         
-%             end
+             end
         end
     end
 %% Set Analytics
