@@ -2,6 +2,7 @@ classdef MovingAverage
     properties
         periods
         start
+        amountOfDataFromToday
     end
     
     properties (SetAccess = private)
@@ -12,7 +13,8 @@ classdef MovingAverage
         % constructor
         function obj = MovingAverage(periods)
             obj.periods = periods;
-            obj.start=periods;
+            obj.start=periods+1;
+            obj.amountOfDataFromToday=periods;
         end
         
         function value = calculateMovingAverage(obj,data)

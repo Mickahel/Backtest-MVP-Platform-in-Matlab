@@ -1,6 +1,5 @@
 classdef orderModel
     properties
-        id
         openPrice
         openDate
         closePrice

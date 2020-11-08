@@ -16,7 +16,7 @@ classdef twoMovingAverageStrategy
         
         function startingPoint = startingPoint(obj)
             %startingPoint gets the starting point of the strategy
-             startingPoint = max(obj.MA1.periods,obj.MA1.periods);
+             startingPoint = max(obj.MA1.amountOfDataFromToday,obj.MA1.amountOfDataFromToday);
         end
         
         function obj = addIndicators(obj, inputParameters)
