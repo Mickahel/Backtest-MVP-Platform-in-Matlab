@@ -22,6 +22,11 @@ classdef portfolioModel
             obj.orders = [obj.orders;order];
         end
         
+        function obj = closeOrder(obj, orderIndex,price, date)
+            orderToClose = obj.orders(orderIndex);
+            obj.orders(orderIndex) = orderToClose.closeOrder(price, date);
+        end
+        
         function obj = checkForOrdersToClose(obj, price, date)
              for ordersIndex = 1: size(obj.orders,1)
                 %check for orders open

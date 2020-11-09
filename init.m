@@ -21,7 +21,7 @@ indicatorsParameters = [4,30,70];
 
 strategyChosen = "single RSI Strategy";
 % data input from CSV,InvestingUSA, AlphaVantage, datafeed
-importedData = readtable('S&P 500 Historical Data Reversed with missing data.csv');
+importedData = readtable('C:\Users\Michelangelo\Desktop\Projects\Backtest-MVP-Platform-in-Matlab\inputTimeseries\S&P 500 Historical Data Reversed with missing data.csv');
 
 %% Data validation
 validatedData  = validateData(importedData,timeframe, origin);

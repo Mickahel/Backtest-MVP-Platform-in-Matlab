@@ -24,7 +24,7 @@ function [portfolio, analytics] = backtestStrategy(portfolio, strategy, financia
         % loss
         
         % TODO
-        portfolio = portofolio.checkForOrdersToClose();
+        portfolio = portfolio.checkForOrdersToClose(todayPrice, todayDate);
         % in the last day, close all orders that are open at the close
         % price
         if dateIndex == size(financialData.dates, 1)
@@ -37,22 +37,24 @@ function [portfolio, analytics] = backtestStrategy(portfolio, strategy, financia
                 continue
             end
             % 2) check if there are orders open
-            [orderOpen,orderIndex] = portfolio.checkForOpenOrders(orderType)
+            [orderOpen,orderIndex] = portfolio.checkForOpenOrders(orderType);
             
             % 3) if no order is open, open the order
              if isempty(orderOpen)
-                orderPlaced = orderModel(todayPrice, todayDate, orderType, amountInPortfolio)          
-                portfolio = portfolio.addOrder(orderPlaced)
+                orderPlaced = orderModel(todayPrice, todayDate, orderType, amountInPortfolio);          
+                portfolio = portfolio.addOrder(orderPlaced);
  
 %             % 4) check if the order is the same of the signal
-%             elseif isOrderOfThisType(orderOpen, orderType) % if true
+             elseif isOrderOfThisType(orderOpen, orderType) % if true
 %             % 5) hold the order
-%             
+%             DO NOTHING
 %             % 6) check if the order is the opposite of the signal
-%             else not(isOrderOfThisType(orderOpen, orderType)
-%                 
-%             % 2-2) check if the order is the opposite of the signal
-%         
+             elseif not(isOrderOfThisType(orderOpen, orderType)
+%               7) close the opposite order
+                portfolio = portfolio.closeOrder(orderIndex,todayPrice, todayDate);
+%               8) open new order 
+                orderPlaced = orderModel(todayPrice, todayDate, orderType, amountInPortfolio)          
+                portfolio = portfolio.addOrder(orderPlaced)
              end
         end
     end
@@ -62,8 +64,8 @@ end
 
 function areTheSameType = isOrderOfThisType(order,orderType)
     if order.type == orderType
-        areTheSameType= true
+        areTheSameType= true;
     else
-        areTheSameType= false
+        areTheSameType= false;
     end
 end
