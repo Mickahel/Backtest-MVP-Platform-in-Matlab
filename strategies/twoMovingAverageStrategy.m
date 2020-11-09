@@ -4,8 +4,8 @@ classdef twoMovingAverageStrategy
     
     properties
         name = "two Moving Average Strategy"
-        MA1
-        MA2
+        MA1 %fast
+        MA2 %slow
     end
     
     methods
@@ -19,11 +19,30 @@ classdef twoMovingAverageStrategy
              startingPoint = max(obj.MA1.amountOfDataFromToday,obj.MA1.amountOfDataFromToday);
         end
         
+        function orderType = checkForSignals(obj,data)
+            dataAmount = size(data,1);
+            %calculate fast MA
+            MAFastValue = obj.MA1.calculateMovingAverage(data(dataAmount-obj.MA1.periods+1:end));
+            %calculate slow MA
+            MASlowValue = obj.MA2.calculateMovingAverage(data(dataAmount-obj.MA2.periods+1:end));
+            
+            %if fast > slow, buy
+            if MAFastValue>= MASlowValue
+                orderType="BUY";
+            %if fast < slow, buy
+            elseif MAFastValue>= MASlowValue
+                orderType="SELL";
+            end
+        end
         function obj = addIndicators(obj, inputParameters)
             inputParametersOfMA1= inputParameters(1);
             inputParametersOfMA2= inputParameters(2);
             obj.MA1 = MovingAverage(inputParametersOfMA1(1,1));
             obj.MA2 = MovingAverage(inputParametersOfMA2(1,1));
+        end
+        
+        function amountOfDataFromToday = amountOfDataFromToday(obj)
+            amountOfDataFromToday = max(obj.MA1.amountOfDataFromToday,obj.MA1.amountOfDataFromToday);
         end
     end
 end
