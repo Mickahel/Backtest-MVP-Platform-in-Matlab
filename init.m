@@ -24,7 +24,7 @@ strategyChosen = "two Moving Average Strategy";
 
 % data input from CSV,InvestingUSA
 importedData = readtable('inputTimeseries\S&P 500 Historical Data Reversed with missing data.csv');
-optimize = false;
+optimize = true;
 %% Data validation
 validatedData  = validateData(importedData);
 
@@ -59,28 +59,33 @@ elseif optimize == true
                 for higherBandIndex = 3:indicatorsParameters(3)
                     params = [periodIndex, lowerBandIndex, higherBandIndex]
                      strategy = strategy.addIndicators(params);
-                     [portfolio] = backtestStrategy(portfolio, strategy, validatedData);
-%                     portfolio.analytics = analyticsModel(portfolio);
-%                     portfolios = [portfolios;portfolio];
+                      [portfolio] = backtestStrategy(portfolio, strategy, validatedData);
+                     portfolio.analytics = analyticsModel(portfolio);
+                     portfolios = [portfolios;portfolio];
                 end
             end
         end
         
-    %% MA
+    %% 2 MA
     elseif strategy.name =="two Moving Average Strategy"
         % for each fast MA period
         for fastMAIndex = 1:indicatorsParameters(1)
             % for each slow MA period
-            for slowMAIndex = 1:indicatorsParameters(2)
+            for slowMAIndex = 2:indicatorsParameters(2)
                 params = [fastMAIndex,slowMAIndex]
-                    strategy = strategy.addIndicators(indicatorsParameters);
+                    strategy = strategy.addIndicators(params);
                     [portfolio] = backtestStrategy(portfolio, strategy, validatedData);
                     portfolio.analytics = analyticsModel(portfolio);
                     portfolios = [portfolios;portfolio];
             end
         end
     end
-    
-    
-    
-end 
+    %% check for best portfolio
+    portfolio = portfolios(1);
+    portfolio.analytics.sharpeRatio
+    for portIndex = 1: size(portfolios,1)
+        if portfolios(portIndex).analytics.sharpeRatio>portfolio.analytics.sharpeRatio
+            portfolio = portfolios(portIndex);
+        end
+    end    
+end
