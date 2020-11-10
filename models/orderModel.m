@@ -25,9 +25,14 @@ classdef orderModel
 %             obj.closePrice
 %             obj.closeDate
             obj.type = type;
-            obj.takeProfit = openPrice + openPrice*0.05;
-            obj.stopLoss = openPrice - openPrice*0.04;
-            obj.riskRewardRatio = (obj.takeProfit-openPrice)/(openPrice-openPrice*0.04);
+            if type =="BUY"
+                obj.takeProfit = openPrice + openPrice*0.006;
+                obj.stopLoss = openPrice - openPrice*0.003;
+            elseif type=="SELL"
+                obj.takeProfit = openPrice - openPrice*0.006;
+                obj.stopLoss = openPrice + openPrice*0.0003;
+            end
+            obj.riskRewardRatio = (0.01)/(0.005);
             obj.amount = amountInPortfolio*0.03;
             obj.status = "OPEN";
             
@@ -39,9 +44,9 @@ classdef orderModel
             obj.closeDate = closeDate;
             
             if obj.type == "BUY"
-                obj.profitLoss= obj.amount * (closePrice/obj.openPrice);
+                obj.profitLoss= obj.amount * ((closePrice-obj.openPrice)/obj.openPrice);
             elseif obj.type == "SELL"
-                obj.profitLoss= obj.amount * (obj.openPrice/closePrice);
+                obj.profitLoss= obj.amount * ((obj.openPrice-closePrice)/obj.openPrice);
             end
         end
     end

@@ -17,14 +17,27 @@ classdef portfolioModel
             obj.orders = [];
         end
         
+        function obj = closeAllOrders(obj, price,date)
+            for ordersIndex = 1: size(obj.orders,1)
+                if obj.orders(ordersIndex).type =="OPEN"
+                    obj = obj.closeOrder(obj,ordersIndex, price,date);
+                end
+            end    
+        end
+        
         function obj = addOrder(obj, order)
             obj.value = obj.value - order.amount;  
             obj.orders = [obj.orders;order];
         end
         
         function obj = closeOrder(obj, orderIndex,price, date)
-            orderToClose = obj.orders(orderIndex);
-            obj.orders(orderIndex) = orderToClose.closeOrder(price, date);
+            orderToClose = obj.orders(orderIndex)
+            obj.orders(orderIndex) = orderToClose.closeOrder(price, date)
+            netProfitLoss = obj.orders(orderIndex).profitLoss
+            porfolioValueBeforeOrderClose =obj.valueHistory(end,2)
+            portfolioValue =porfolioValueBeforeOrderClose+netProfitLoss
+            obj.valueHistory = [obj.valueHistory; date, portfolioValue, portfolioValue/porfolioValueBeforeOrderClose-1]
+            obj.value = portfolioValue;
         end
         
         function obj = checkForOrdersToClose(obj, price, date)
@@ -35,13 +48,15 @@ classdef portfolioModel
                 % if the price is above the stop loss or below the
                 % takeprofit, close the order
                         if price >= obj.orders(ordersIndex).stopLoss || price <= obj.orders(ordersIndex).takeProfit
-                            obj.orders(ordersIndex) = obj.orders(ordersIndex).closeOrder(price, date);
+%                             obj.orders(ordersIndex) = obj.orders(ordersIndex).closeOrder(price, date)
+                              obj = obj.closeOrder(ordersIndex, price, date);
                         end
                     elseif obj.orders(ordersIndex).type == "BUY"
                 % if the price is below the stop loss or above the
                 % takeprofit, close the order
                         if price <= obj.orders(ordersIndex).stopLoss || price >= obj.orders(ordersIndex).takeProfit
-                            obj.orders(ordersIndex) = obj.orders(ordersIndex).closeOrder(price, date);
+%                             obj.orders(ordersIndex) = obj.orders(ordersIndex).closeOrder(price, date);
+                              obj = obj.closeOrder(ordersIndex, price, date);
                         end
                     end
                 end
