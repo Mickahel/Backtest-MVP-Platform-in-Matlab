@@ -44,7 +44,7 @@ classdef RelativeStrengthIndex
             AvgD = mean(abs(downReturns));
             RS = AvgU / AvgD;
             
-            RSI = 100-100/( 1 + RS )
+            RSI = 100-100/( 1 + RS );
         end
         
     end

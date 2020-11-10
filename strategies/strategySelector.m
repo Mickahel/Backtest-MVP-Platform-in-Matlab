@@ -4,8 +4,8 @@ function [strategy] = strategySelector(strategies,strategyChosen)
     for index = 1: size(strategies,2)
         if strategies{index}.name  == strategyChosen
             strategy= strategies{index};
+            break
         end
-        break
     end
 end
 

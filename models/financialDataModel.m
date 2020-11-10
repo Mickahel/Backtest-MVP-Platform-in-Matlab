@@ -3,8 +3,6 @@ classdef financialDataModel
         dates
         prices
         returns
-        timeframe
-        origin
         missingData
         
     end
@@ -15,12 +13,10 @@ classdef financialDataModel
     
     methods
         % constructor
-        function obj = financialDataModel(dates, prices, returns, timeframe, origin, missingData)
+        function obj = financialDataModel(dates, prices, returns, missingData)
             obj.dates = dates;
             obj.prices = prices;
             obj.returns = returns;
-            obj.timeframe= timeframe;
-            obj.origin = origin;
             obj.missingData = missingData;
         end
         

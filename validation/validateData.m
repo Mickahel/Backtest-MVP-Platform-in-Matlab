@@ -1,4 +1,4 @@
-function [financialDataObject] = validateData(timeseriesData, timeframe, origin)
+function [financialDataObject] = validateData(timeseriesData)
 %VALIDATEDATA validates the input data by filling the gaps(anomalies), sorting ascending and  
 % Inputs :
 %     timeseriesData     : the raw data imported from the CSV
@@ -28,8 +28,6 @@ function [financialDataObject] = validateData(timeseriesData, timeframe, origin)
         formattedDates,...      % dates
         formattedPrices,...     % prices
         formattedReturns,...    % returns
-        timeframe,...            % timeframe
-        origin,...%origin
         missingData... %missingData
     );
 

@@ -3,6 +3,8 @@ classdef portfolioModel
         value
         valueHistory % matrix with columns : date, amount, return
         orders
+        analytics
+        strategy
     end
     
     properties (SetAccess = private)
@@ -31,12 +33,12 @@ classdef portfolioModel
         end
         
         function obj = closeOrder(obj, orderIndex,price, date)
-            orderToClose = obj.orders(orderIndex)
-            obj.orders(orderIndex) = orderToClose.closeOrder(price, date)
-            netProfitLoss = obj.orders(orderIndex).profitLoss
-            porfolioValueBeforeOrderClose =obj.valueHistory(end,2)
-            portfolioValue =porfolioValueBeforeOrderClose+netProfitLoss
-            obj.valueHistory = [obj.valueHistory; date, portfolioValue, portfolioValue/porfolioValueBeforeOrderClose-1]
+            orderToClose = obj.orders(orderIndex);
+            obj.orders(orderIndex) = orderToClose.closeOrder(price, date);
+            netProfitLoss = obj.orders(orderIndex).profitLoss;
+            porfolioValueBeforeOrderClose =obj.valueHistory(end,2);
+            portfolioValue =porfolioValueBeforeOrderClose+netProfitLoss;
+            obj.valueHistory = [obj.valueHistory; date, portfolioValue, portfolioValue/porfolioValueBeforeOrderClose-1];
             obj.value = portfolioValue;
         end
         

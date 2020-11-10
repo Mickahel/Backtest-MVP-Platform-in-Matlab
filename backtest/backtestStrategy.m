@@ -11,7 +11,7 @@ function [portfolio] = backtestStrategy(portfolio, strategy, financialData)
 
     %% Get the amount of data to use for the indicators
     amountOfDataFromToday = strategy.amountOfDataFromToday();
-
+    portfolio.strategy = strategy;
     %% Cycle through dates
     for dateIndex  = startingValue : size(financialData.dates, 1)
         
@@ -23,8 +23,8 @@ function [portfolio] = backtestStrategy(portfolio, strategy, financialData)
 
         % 0) check if you can close orders that go in take profit or stop
         % loss
-        portfolio = portfolio.checkForOrdersToClose(todayPrice, todayDate)
-                amountInPortfolio = portfolio.value
+        portfolio = portfolio.checkForOrdersToClose(todayPrice, todayDate);
+                amountInPortfolio = portfolio.value;
         if portfolio.value <0
             return
         % in the last day, close all orders that are open at the close
@@ -34,7 +34,7 @@ function [portfolio] = backtestStrategy(portfolio, strategy, financialData)
             return
         else
             % 1) check what strategy says (buy/sell)
-            orderType = strategy.checkForSignals(dataInputForStrategy)
+            orderType = strategy.checkForSignals(dataInputForStrategy);
 
             if orderType==orderTypeEnumeration.IDLE
                 continue
@@ -44,8 +44,8 @@ function [portfolio] = backtestStrategy(portfolio, strategy, financialData)
 
             % 3) if no order is open, open the order
             if isempty(orderOpen)
-                orderPlaced = orderModel(todayPrice, todayDate, orderType, amountInPortfolio)
-                portfolio = portfolio.addOrder(orderPlaced)
+                orderPlaced = orderModel(todayPrice, todayDate, orderType, amountInPortfolio);
+                portfolio = portfolio.addOrder(orderPlaced);
 
                 %             % 4) check if the order is the same of the signal
             elseif isOrderOfThisType(orderOpen, orderType) % if true
@@ -56,8 +56,8 @@ function [portfolio] = backtestStrategy(portfolio, strategy, financialData)
                 %               7) close the opposite order
                 portfolio = portfolio.closeOrder(orderIndex,todayPrice, todayDate);
                 %               8) open new order
-                orderPlaced = orderModel(todayPrice, todayDate, orderType, amountInPortfolio)
-                portfolio = portfolio.addOrder(orderPlaced)
+                orderPlaced = orderModel(todayPrice, todayDate, orderType, amountInPortfolio);
+                portfolio = portfolio.addOrder(orderPlaced);
             end
         end
     end
