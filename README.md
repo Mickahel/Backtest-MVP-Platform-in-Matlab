@@ -19,11 +19,11 @@ There are 2 ways:
 
 Then, Click On "Start"
 
-![MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled.png](MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled.png)
+![readmeResources/Untitled.png](readmeResources/Untitled.png)
 
-![MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled%201.png](MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled%201.png)
+![readmeResources/Untitled%201.png](readmeResources/Untitled%201.png)
 
-![MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled%202.png](MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled%202.png)
+![readmeResources/Untitled%202.png](readmeResources/Untitled%202.png)
 
 NOTE: if you want to uninstall and you have Windows as operative system just go on "Pannello di Controllo", then  "Disinstalla un programma", then uninstall "backtestMVPapp"
 
@@ -67,7 +67,7 @@ SELL  if the RSI goes above the upperband
 
 ### Order Logic
 
-![MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled%203.png](MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled%203.png)
+![readmeResources/Untitled%203.png](readmeResources/Untitled%203.png)
 
 For each element of the timeseries (for each close price) the backtest will do these tasks:
 
