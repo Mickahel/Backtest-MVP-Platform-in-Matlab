@@ -1,32 +1,40 @@
-# Backtest-MVP-Platform-in-Matlab
+# MVP Backtest platform
 
 # Objective
 
-Create a script that manages a complete backtests and optimizes a trading strategy (built relying on one or more indicators) given a stock and a period of backtest.
+Create a script that manages a complete backtest and optimizes a trading strategy (built relying on one or more indicators) given a stock CSV downloaded from [Investing USA](https://www.investing.com/).
 
-# Notes on the Project
+# **Notes on the Project**
 
 1. It's written in vanila Matlab, external packages has not been used as I aimed to code everything from scratch
-2. I have made extensive use of Object Oriented Programming in Matlab _(i.e. indicators, portfolio, orders and strategies are Objects)_
-3. 
+2. I have made extensive use of Object Oriented Programming in Matlab *(i.e. indicators, portfolio, orders and strategies are Objects)*
+3. The project goes from zero to production (software publication)
 
-# How To use it
+# How to start it
 
-# Logical Steps for the Backtest
+There are 2 ways:
 
-The logical steps the script will execute will be:
+1. Install the standalone app by clicking on **"MyAppInstaller_web.exe"** (maybe the antivirus will trigger, it's ok)
+2. Open the Matlab software, open the project, double click on "backtestMVPApp.mlapp", App Designer will appear and then click on "Run"(it's on the upper toolbar)
+
+Then, Click On "Start"
+
+![MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled.png](MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled.png)
+
+![MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled%201.png](MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled%201.png)
+
+![MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled%202.png](MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled%202.png)
+
+NOTE: if you want to uninstall and you have Windows as operative system just go on "Pannello di Controllo", then  "Disinstalla un programma", then uninstall "backtestMVPapp"
+
+# How it works
 
 ## 1) User information input and data gathering
 
-The user will insert in the script these information(by command input or GUI if possible):
-
-- Ticker of the stock
-- Start date of the backtest
-- End date of the backtest
-
-The script will search for the close price or the adjusted close price of the stock for the chosen period on [Alpha Vantage](https://www.alphavantage.co/) and will store the timeseries by parsing the JSON object provided by the Data Provider.
-
-The user will be also able to upload the CSV of the prices.
+1. The user inserts the type of **stocks she wants to analyze or uploads a CSV** with the dedicated button.
+2. The user chooses the **amount of money of the portfolio**.
+3. The user chooses the **type of strategy** she wants to backtest.
+4. **If she wants to just backtest or optimize** the parameters(find the best parameters to have a high profit and low drawdown)
 
 ## 2) Data Filtering and Validation
 
@@ -37,8 +45,6 @@ In order to spot outliers, the code will check for first if the data requested f
 Moreover, the timeseries will be scanned to check if there is missing data:
 
 If some points of the timeseries are missing, they will be filled by the mean between the left and right point of the timeseries.
-
-Then, it will be calculated the interval not available(t=3) and the difference between the 2 available price (diffPrice=20-15=5).
 The new data used as a fill for the missing points will be calculated as:
 
 $m=(y_2-y_1)/(x_2-x_1)$
@@ -47,53 +53,57 @@ $q=y_2-m\cdot y_1$
 
 $P_t=t\cdot m+q$
 
-If data is missing at the beginning or at the end of the timeseries, it will be replaced by the one more close to it
+## 3) Backtest of the strategy and creation of sell and buy orders
 
-## 3) Backtest of the strategy and fake creation of sell and buy orders
-
-The indicator chosen will be probably 2 Moving Average and the trading system will be based on the simple trading strategy:
+If the Strategy chosen is the **2 Moving Average**: 
 BUY if the faster MA crosses upperward the slower one
 
 SELL if the faster MA crosses downward the slower one
 
-The backtest will 
+If the Strategy chosen is the **RSI Overbought /  Oversold**: 
+BUY if the RSI goes below the lowerband 
 
-## 4) Optimization of "optimizable input parameters"
+SELL  if the RSI goes above the upperband 
 
-The Inputs of the indicators aren't fine tuned as they're chosen by the user or hardcoded in the script.
+### Order Logic
 
-the point 3 wil be run several times in order to create several scenarios: the parameters for each scenario will be different as it will have different inputs.
+![MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled%203.png](MVP%20Backtest%20platform%20b5fcf788b202430e9e5bfed203c2d914/Untitled%203.png)
 
-The input used for the scenario are:
+For each element of the timeseries (for each close price) the backtest will do these tasks:
 
-- Input values of the Indicators
-- Profit/StopLoss ratio
-- % of capital to invest
+1. check if there are orders to close (in stop loss or take profit)
+2. check if the portfolio is less than 0
+3. check if the strategy signals something("BUY", "SELL", "IDLE")
+4. the logic flow in the above image 
 
-## 5) Analysis of the data collected
+## 4) Analysis of the data collected
 
 there will be collected information as:
 
 - Profit/Loss
-- "Has the strategy beaten the market?"
-    - Requires to compute the gross profit of a sell and hold on the stock or a buy and hold. Max of the absolute value of those will be the result.
-- Variance of the profit
+- Variance of the portfolio
 - % Max Drawdown
-- Period of Sink of drawdown
-- Orders done
-- Amount of Orders in profit
-- % Orders in profit
-- Profit made by Orders in profit
-- Amount of Orders in loss
-- % Orders in profit
-- Profit made by Orders in profit
-- Sharpe Ratio
-- Sortino Ratio
+- Sharpe Ratio (with risk free rate  = 0)
+- A Chart of the profit/loss
 
-## 6) Pareto Efficiency on Fundamental Data in order to spot the best strategy
+## Optimization of "optimizable input parameters"
 
-in all scenarios there has to be a best scenario. From the best scenario, it's possible to get the best input data for the timeseries chosen.
+The Inputs of the indicators aren't fine tuned as they're chosen by the user or hardcoded in the script *i.e.(order size, order take profit, order stop loss)*.
 
-How to spot the best scenario?
+The software will cycle from 1 to the input parameter and will find the optimal portfolio based on sharpe ratio.
 
-with a pareto frontier computed by Profit and drawdown(or variance)
+**N.B. PLEASE do not use high values for the parameters as it would take HOURS
+I suggest to use the 2 Moving Average Strategy with parameters 4 and 8 (so that (8-1)*4= 28 scenarios)
+Each scenario takes almost 2 to 4 seconds to be tested depending on the size of the dataset(so, also, do not use huge timeseries)**
+
+Why this happens? Because matlab  has performance issues when dealing with object. 
+Source:
+
+- [Matlab Forum Link 1](https://it.mathworks.com/matlabcentral/answers/30998-array-of-objects-speed-issues)
+- [Matlab Forum Link 2](https://blogs.mathworks.com/loren/2012/03/26/considering-performance-in-object-oriented-matlab-code/)
+
+# Standalone App
+
+There are 3 ways to publish a Matlab Script: creating a **Webapp** (this solution would need a server), creating an **app** (that will be added to the matlab apps on the device), create a **standalone app** in order to let users use the script**.**
+
+In this Project i created a standalone app
