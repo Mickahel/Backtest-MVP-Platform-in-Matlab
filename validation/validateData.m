@@ -14,8 +14,12 @@ function [financialDataObject] = validateData(timeseriesData)
     % dateFormat = 'mm/dd/yyyy HH:MM:SS';
     %formattedDates = datestr(timeseriesData.Date,dateFormat);
     %formattedDates = string(formattedDates);
+    if class(timeseriesData.Price)=="cell"
     formattedPrices=str2double(timeseriesData.Price);        % Note: "-" is interpreted as NaN
-    % 2) sort the data
+    else 
+        formattedPrices=timeseriesData.Price
+    end% 2) sort the data
+    class(timeseriesData.Price)
     [formattedDates, sortOrder] = sort(timeseriesData.Date);   
     formattedDates = datenum(formattedDates);
     formattedPrices = formattedPrices(sortOrder,:);
